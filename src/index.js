@@ -3,7 +3,7 @@ const pathToLocalEnv = path.resolve(process.cwd(), '.env.local')
 //Solving warning https://github.com/yagop/node-telegram-bot-api/issues/540
 require('./server.helpers')
 require('dotenv').config({path: pathToLocalEnv})
-
+// require('./clusters')
 const TelegramBot = require('node-telegram-bot-api')
 const bot = new TelegramBot(process.env.BOT_API, {polling: true})
 const app = require('express')()

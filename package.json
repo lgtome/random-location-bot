@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src"
+    "dev": "nodemon src",
+    "serve": "nodemon src/clusters.js"
   },
   "dependencies": {
     "dotenv": "^14.3.2",
