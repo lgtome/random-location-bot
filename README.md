@@ -4,4 +4,5 @@
 
 - use `git clone ...`
 - run `npm dev` or `yarn dev`
-- enjoy :c
+- change `BOT_API` in `.env` file or create `.env.local` and put it there
+- also, u can change port in `.env` file
