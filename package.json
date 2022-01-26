@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src",
-    "serve": "nodemon src/clusters.js"
+    "serve": "nodemon src/clusters.js",
+    "docker:up": "docker compose up"
   },
   "dependencies": {
     "dotenv": "^14.3.2",
