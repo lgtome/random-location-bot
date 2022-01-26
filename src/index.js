@@ -14,13 +14,13 @@ bot.onText(/[a-zA-Z]+$/ig, (msg, match) => {
     const id = msg?.chat?.id
     if (new RegExp(/stop/ig).test(msg?.text)) {
         manager(id).unsubscribe()
-        logger('STOP FROM INDEX >>> IF')
+        logger('LOG FROM >>> UNSUBSCRIBE')
     } else {
-        logger(['asd'])
+        logger('LOG FROM >>> SUBSCRIBE')
         manager(id).subscribe()
     }
 })
 
 app.listen(PORT, () => {
-    console.log(`server started on ${PORT}`)
+    logger(`server started on ${PORT}`, 'magenta')
 })
