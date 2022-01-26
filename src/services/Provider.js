@@ -1,22 +1,46 @@
-const Provider = (bot, time = 2000) => {
-    let INTERVAL_ID = null
-    let USER_ID = null
-    let USER_TABLE = {}
-    return (id) => {
+const getRandomData = require('../helpers/getRandomGeoData')
+const {longitude, latitude} = require('../utils/CONSTANTS')
 
-        const handler = () => bot.sendLocation(USER_ID, 50.44970, 30.523720)
-        if (USER_ID === id) {
-            delete USER_TABLE[id]
+const Provider = (bot, time = 4000) => {
+    let INTERVAL_ID = {}
+    let USER_TABLE = {}
+    const intervalHandler = (id) => () => bot.sendLocation(id,
+        getRandomData(latitude.min, latitude.max),
+        getRandomData(longitude.min, longitude.max))
+    return (id) => {
+        if (!!USER_TABLE[id]) {
             return {
-                unsubscribe: () => clearInterval(INTERVAL_ID)
+                unsubscribe: () => {
+                    clearInterval(INTERVAL_ID[id])
+                    delete USER_TABLE[id]
+                }
             }
         } else {
             USER_TABLE[id] = 'subscribed'
-            USER_ID = id
             return {
-                subscribe: () => INTERVAL_ID = setInterval(handler, time),
+                subscribe: () => INTERVAL_ID[id] = setInterval(intervalHandler(id), time),
             }
         }
     }
 }
-module.exports = Provider
+const Provider2 = (bot, time = 4000) => {
+    let INTERVAL_ID = {}
+    let USER_TABLE = {}
+    const intervalHandler = (id) => () => bot.sendLocation(id,
+        getRandomData(latitude.min, latitude.max),
+        getRandomData(longitude.min, longitude.max))
+    return (id) => {
+        return {
+            subscribe: () => {
+                if (USER_TABLE[id]) return
+                USER_TABLE[id] = 'subscribed'
+                INTERVAL_ID[id] = setInterval(intervalHandler(id), time)
+            },
+            unsubscribe: () => {
+                clearInterval(INTERVAL_ID[id])
+                delete USER_TABLE[id]
+            }
+        }
+    }
+}
+module.exports = Provider2
